@@ -9,9 +9,15 @@ This project aims to explore the theoretical foundations and practical applicati
 Lecture notes are available at: [demo.ipynb](https://github.com/liupeiai/aiml/blob/main/demo.ipynb)
 
 ## 📂 Repository Structure
+
 aiml/
+
 ├── demo.ipynb          # Lecture notes (core notes with theoretical explanations and code demonstrations)
+
 ├── [code files]        # Experimental code from the course paper
+
 ├── [data files]        # Datasets used in experiments
+
 ├── [images/figures]    # Visualizations and figures from the paper
+
 └── README.md           # This file
