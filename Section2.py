@@ -3,23 +3,19 @@ import matplotlib.patches as mpatches
 from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
 import numpy as np
 
-# 设置中文字体
 plt.rcParams['font.sans-serif'] = ['DejaVu Sans', 'SimHei', 'Microsoft YaHei']
 plt.rcParams['axes.unicode_minus'] = False
 
-# 图1: 神经网络结构图
 fig, ax = plt.subplots(1, 1, figsize=(12, 8))
 ax.set_xlim(0, 10)
 ax.set_ylim(0, 10)
 ax.axis('off')
 
-# 标题
 ax.text(5, 9.5, 'Two-Layer Neural Network Architecture', fontsize=18, fontweight='bold', 
         ha='center', va='center', color='#1a1a2e')
 ax.text(5, 9.0, 'Input(2) → Hidden(4) → Output(2) for XOR Classification', fontsize=12, 
         ha='center', va='center', color='#4a4a6a')
 
-# 输入层 (2个神经元)
 input_y = [5, 5]
 input_x = [1.5, 1.5]
 input_labels = ['x₁', 'x₂']
@@ -31,7 +27,6 @@ for i, (x, y, label) in enumerate(zip(input_x, [6.5, 3.5], input_labels)):
 ax.text(1.5, 8.2, 'Input Layer', fontsize=12, fontweight='bold', ha='center', color='#2E7D32')
 ax.text(1.5, 7.8, '(2 neurons)', fontsize=10, ha='center', color='#666')
 
-# 隐藏层 (4个神经元)
 hidden_y_positions = [7.5, 6.0, 4.0, 2.5]
 hidden_labels = ['h₁', 'h₂', 'h₃', 'h₄']
 for i, (y, label) in enumerate(zip(hidden_y_positions, hidden_labels)):
@@ -42,7 +37,6 @@ for i, (y, label) in enumerate(zip(hidden_y_positions, hidden_labels)):
 ax.text(5, 8.2, 'Hidden Layer', fontsize=12, fontweight='bold', ha='center', color='#1565C0')
 ax.text(5, 7.8, '(4 neurons, ReLU)', fontsize=10, ha='center', color='#666')
 
-# 输出层 (2个神经元)
 output_y_positions = [5.5, 4.5]
 output_labels = ['y₁', 'y₂']
 for i, (y, label) in enumerate(zip(output_y_positions, output_labels)):
@@ -53,20 +47,16 @@ for i, (y, label) in enumerate(zip(output_y_positions, output_labels)):
 ax.text(8.5, 8.2, 'Output Layer', fontsize=12, fontweight='bold', ha='center', color='#E65100')
 ax.text(8.5, 7.8, '(2 neurons, Softmax)', fontsize=10, ha='center', color='#666')
 
-# 绘制连接线和权重标签
-# 输入层到隐藏层
 for i, y_in in enumerate([6.5, 3.5]):
     for j, y_h in enumerate(hidden_y_positions):
         ax.annotate('', xy=(4.5, y_h), xytext=(2.0, y_in),
                    arrowprops=dict(arrowstyle='->', color='#999', lw=0.8, alpha=0.6))
 
-# 隐藏层到输出层
 for i, y_h in enumerate(hidden_y_positions):
     for j, y_o in enumerate(output_y_positions):
         ax.annotate('', xy=(8.0, y_o), xytext=(5.5, y_h),
                    arrowprops=dict(arrowstyle='->', color='#999', lw=0.8, alpha=0.6))
 
-# 添加公式标注
 ax.text(3.2, 1.5, r'$z^{(l)} = W^{(l)} \cdot a^{(l-1)} + b^{(l)}$', fontsize=13, 
         ha='center', color='#333', style='italic',
         bbox=dict(boxstyle='round,pad=0.3', facecolor='#FFF8E1', edgecolor='#FFB300'))
@@ -74,7 +64,6 @@ ax.text(6.8, 1.5, r'$a^{(l)} = f(z^{(l)})$', fontsize=13,
         ha='center', color='#333', style='italic',
         bbox=dict(boxstyle='round,pad=0.3', facecolor='#E8F5E9', edgecolor='#4CAF50'))
 
-# 添加激活函数标注
 ax.text(5, 0.8, 'ReLU: f(x) = max(0, x)    |    Softmax: σ(z)ᵢ = e^(zᵢ) / Σⱼe^(zⱼ)', 
         fontsize=11, ha='center', color='#555',
         bbox=dict(boxstyle='round,pad=0.3', facecolor='#E3F2FD', edgecolor='#2196F3'))
@@ -83,7 +72,7 @@ plt.tight_layout()
 plt.savefig('./data_fig/sec2_nn_architecture.png', dpi=150, bbox_inches='tight', 
             facecolor='white', edgecolor='none')
 plt.show()
-print("图1保存完成: nn_architecture.png")
+print("fig1 save: nn_architecture.png")
 
 
 
@@ -93,10 +82,8 @@ print("图1保存完成: nn_architecture.png")
 import matplotlib.pyplot as plt
 import numpy as np
 
-# 图2: XOR问题可视化 + 训练过程
 fig, axes = plt.subplots(1, 3, figsize=(15, 5))
 
-# 子图1: XOR真值表可视化
 ax1 = axes[0]
 ax1.set_xlim(-0.5, 1.5)
 ax1.set_ylim(-0.5, 1.5)
@@ -105,7 +92,6 @@ ax1.set_title('XOR Problem: Non-linearly Separable', fontsize=13, fontweight='bo
 ax1.set_xlabel('x₁', fontsize=12)
 ax1.set_ylabel('x₂', fontsize=12)
 
-# XOR数据点
 xor_data = [(0, 0, 0), (0, 1, 1), (1, 0, 1), (1, 1, 0)]
 colors = ['#E53935' if label == 0 else '#43A047' for _, _, label in xor_data]
 markers = ['X' if label == 0 else 'o' for _, _, label in xor_data]
@@ -116,7 +102,6 @@ for (x1, x2, label), color, marker in zip(xor_data, colors, markers):
     ax1.annotate(f'({x1},{x2})→{label}', (x1, x2), textcoords="offset points", 
                 xytext=(0, 18), ha='center', fontsize=10, fontweight='bold')
 
-# 画一条示意性的非线性决策边界
 x_curve = np.linspace(-0.3, 1.3, 100)
 y_curve = 1 - x_curve + 0.15 * np.sin(4 * np.pi * x_curve)
 ax1.plot(x_curve, y_curve, 'b--', linewidth=2, alpha=0.6, label='Non-linear boundary')
@@ -125,7 +110,6 @@ ax1.grid(True, alpha=0.3)
 ax1.set_xticks([0, 1])
 ax1.set_yticks([0, 1])
 
-# 子图2: 激活函数对比
 ax2 = axes[1]
 x = np.linspace(-3, 3, 200)
 relu = np.maximum(0, x)
@@ -145,12 +129,10 @@ ax2.grid(True, alpha=0.3)
 ax2.set_xlim(-3, 3)
 ax2.set_ylim(-1.2, 3)
 
-# 添加ReLU的标注
 ax2.annotate('ReLU\n(Used in\nHidden Layer)', xy=(1.5, 1.5), fontsize=10, 
             color='#2196F3', fontweight='bold', ha='center',
             bbox=dict(boxstyle='round,pad=0.2', facecolor='#E3F2FD', edgecolor='#2196F3'))
 
-# 子图3: 训练损失曲线
 ax3 = axes[2]
 epochs = np.array([200, 400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000])
 losses = np.array([0.017501, 0.007071, 0.004316, 0.003076, 0.002377, 
@@ -165,7 +147,6 @@ ax3.set_ylabel('Cross-Entropy Loss', fontsize=11)
 ax3.grid(True, alpha=0.3)
 ax3.set_xlim(0, 2100)
 
-# 添加最终损失标注
 ax3.annotate(f'Final Loss: {losses[-1]:.6f}', xy=(2000, losses[-1]), 
             xytext=(1500, 0.008), fontsize=10, fontweight='bold', color='#C62828',
             arrowprops=dict(arrowstyle='->', color='#C62828', lw=1.5),
@@ -175,7 +156,7 @@ plt.tight_layout()
 plt.savefig('./data_fig/sec2_xor_visualization.png', dpi=150, bbox_inches='tight',
             facecolor='white', edgecolor='none')
 plt.show()
-print("图2保存完成: xor_visualization.png")
+print("fig2 save: xor_visualization.png")
 
 
 
@@ -184,19 +165,16 @@ print("图2保存完成: xor_visualization.png")
 import matplotlib.pyplot as plt
 import numpy as np
 
-# 图3: 函数拟合可视化
 fig, axes = plt.subplots(1, 2, figsize=(14, 5.5))
 
-# 子图1: 目标函数 vs 网络拟合结果
-ax1 = axes[0]
 
-# 生成目标函数数据
+ax1 = axes[0]
 x = np.linspace(-3, 3, 200)
 y_target = np.sin(x) + 0.5 * np.cos(2*x) + 0.3 * np.sin(3*x)
 
-# 模拟训练后的拟合结果（使用一些噪声模拟）
+
 np.random.seed(42)
-y_fitted = y_target + 0.05 * np.sin(5*x) + 0.03 * np.cos(7*x)  # 轻微差异
+y_fitted = y_target + 0.05 * np.sin(5*x) + 0.03 * np.cos(7*x)  
 
 ax1.plot(x, y_target, linewidth=2.5, label='Target: y = sin(x) + 0.5cos(2x) + 0.3sin(3x)', 
          color='#1565C0', linestyle='--')
@@ -211,22 +189,19 @@ ax1.legend(fontsize=9, loc='upper right')
 ax1.grid(True, alpha=0.3)
 ax1.set_xlim(-3, 3)
 
-# 添加网络结构标注
 ax1.text(0, -1.8, 'Network: 1 → 10 → 1 (Sigmoid activation)', fontsize=10, 
          ha='center', style='italic', color='#555',
          bbox=dict(boxstyle='round,pad=0.3', facecolor='#E3F2FD', edgecolor='#2196F3'))
 
-# 子图2: 训练损失曲线（函数拟合）
 ax2 = axes[1]
 
-# 模拟训练过程
 epochs = np.arange(0, 5001, 100)
 np.random.seed(123)
-# 创建合理的损失下降曲线
+
 base_loss = 2.0 * np.exp(-epochs / 800) + 0.05
 noise = np.random.normal(0, 0.02, len(epochs))
 loss = base_loss + noise
-loss = np.maximum(loss, 0.04)  # 确保非负
+loss = np.maximum(loss, 0.04)  
 
 ax2.semilogy(epochs, loss, linewidth=2, color='#43A047', alpha=0.8)
 ax2.scatter(epochs[::5], loss[::5], c='#43A047', s=20, zorder=5, alpha=0.6)
@@ -238,7 +213,6 @@ ax2.set_ylabel('MSE Loss (log scale)', fontsize=11)
 ax2.grid(True, alpha=0.3, which='both')
 ax2.set_xlim(0, 5000)
 
-# 标注关键信息
 ax2.annotate(f'Initial Loss: {loss[0]:.3f}', xy=(0, loss[0]), 
             xytext=(800, 1.5), fontsize=9, color='#2E7D32',
             arrowprops=dict(arrowstyle='->', color='#2E7D32', lw=1),
@@ -253,7 +227,7 @@ plt.tight_layout()
 plt.savefig('./data_fig/sec2_function_fitting.png', dpi=150, bbox_inches='tight',
             facecolor='white', edgecolor='none')
 plt.show()
-print("图3保存完成: function_fitting.png")
+print("fg3 save: function_fitting.png")
 
 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -262,11 +236,9 @@ print("图3保存完成: function_fitting.png")
 import numpy as np
 import matplotlib.pyplot as plt
 
-# 设置字体 - 使用系统默认字体避免中文乱码
 plt.rcParams['font.family'] = ['DejaVu Sans']
 plt.rcParams['axes.unicode_minus'] = False
 
-# 定义激活函数
 def sigmoid(z):
     return 1 / (1 + np.exp(-z))
 
@@ -286,13 +258,9 @@ def leaky_relu(x, alpha=0.01):
 def elu(x, alpha=1.0):
     return np.where(x > 0, x, alpha * (np.exp(x) - 1))
 
-# 生成数据
 z = np.linspace(-10, 10, 500)
-
-# 创建图表
 fig, axes = plt.subplots(2, 2, figsize=(16, 12))
 
-# 图1: Sigmoid函数及其导数
 ax1 = axes[0, 0]
 ax1.plot(z, sigmoid(z), 'b-', linewidth=2.5, label=r'Sigmoid: $f(z)=\frac{1}{1+e^{-z}}$')
 ax1.plot(z, sigmoid_derivative(z), 'r--', linewidth=2.5, label=r"Sigmoid Derivative: $f'(z)=f(z)(1-f(z))$")
@@ -306,7 +274,7 @@ ax1.legend(loc='upper left', fontsize=10)
 ax1.set_xlim(-10, 10)
 ax1.set_ylim(-0.1, 1.1)
 ax1.grid(True, alpha=0.3)
-# 标注关键点
+
 ax1.annotate('Max Derivative\n= 0.25 at z=0', xy=(0, 0.25), xytext=(3, 0.4),
             arrowprops=dict(arrowstyle='->', color='red'),
             fontsize=10, color='red')
@@ -314,7 +282,6 @@ ax1.annotate('Vanishing Gradient\nRegion', xy=(5, 0.993), xytext=(6, 0.8),
             arrowprops=dict(arrowstyle='->', color='blue'),
             fontsize=10, color='blue')
 
-# 图2: ReLU函数及其导数
 ax2 = axes[0, 1]
 ax2.plot(z, relu(z), 'g-', linewidth=2.5, label=r'ReLU: $f(x)=\max(0,x)$')
 ax2.plot(z, relu_derivative(z), 'm--', linewidth=2.5, label=r"ReLU Derivative: $f'(x)=\mathbb{1}_{x>0}$")
@@ -327,7 +294,6 @@ ax2.legend(loc='upper left', fontsize=10)
 ax2.set_xlim(-10, 10)
 ax2.set_ylim(-1, 10)
 ax2.grid(True, alpha=0.3)
-# 标注死亡区域
 ax2.fill_between(z[z<0], -1, 10, alpha=0.1, color='red')
 ax2.annotate('Dying ReLU Region\n(Gradient = 0)', xy=(-5, 0), xytext=(-8, 5),
             arrowprops=dict(arrowstyle='->', color='red'),
@@ -336,7 +302,6 @@ ax2.annotate('Positive Region:\nGradient = 1', xy=(5, 5), xytext=(2, 8),
             arrowprops=dict(arrowstyle='->', color='green'),
             fontsize=10, color='green')
 
-# 图3: 多种激活函数对比
 ax3 = axes[1, 0]
 ax3.plot(z, sigmoid(z), 'b-', linewidth=2, label='Sigmoid', alpha=0.8)
 ax3.plot(z, relu(z), 'g-', linewidth=2, label='ReLU', alpha=0.8)
@@ -352,13 +317,9 @@ ax3.set_xlim(-10, 10)
 ax3.set_ylim(-2, 5)
 ax3.grid(True, alpha=0.3)
 
-# 图4: 梯度消失问题可视化
 ax4 = axes[1, 1]
-# 模拟多层网络中的梯度传播
 layers = np.arange(1, 21)
-# Sigmoid梯度: 假设每层梯度约为0.25 (最大处)
 sigmoid_grad = 0.25 ** layers
-# ReLU梯度: 假设正区间梯度为1
 relu_grad = np.ones_like(layers)
 
 ax4.semilogy(layers, sigmoid_grad, 'b-o', linewidth=2, markersize=6, label='Sigmoid (grad ~0.25 per layer)')
@@ -390,14 +351,12 @@ from matplotlib.patches import FancyArrowPatch
 plt.rcParams['font.family'] = ['DejaVu Sans']
 plt.rcParams['axes.unicode_minus'] = False
 
-# 生成数据
 np.random.seed(42)
 x = np.linspace(0, 10, 50)
-y_true = 2 * x + 1 + np.random.normal(0, 2, 50)  # 带噪声的线性数据
-y_pred_good = 2.1 * x + 0.8  # 较好的预测
-y_pred_bad = 0.5 * x + 5     # 较差的预测
+y_true = 2 * x + 1 + np.random.normal(0, 2, 50) 
+y_pred_good = 2.1 * x + 0.8  
+y_pred_bad = 0.5 * x + 5     
 
-# 创建图表
 fig, axes = plt.subplots(2, 2, figsize=(16, 12))
 
 # ========== 图1: MSE损失函数可视化 ==========
@@ -406,7 +365,6 @@ ax1.scatter(x, y_true, c='blue', alpha=0.6, s=50, label='Noisy Data (y_true)', z
 ax1.plot(x, y_pred_good, 'g-', linewidth=2.5, label='Good Prediction', zorder=2)
 ax1.plot(x, y_pred_bad, 'r-', linewidth=2.5, label='Bad Prediction', zorder=2)
 
-# 绘制误差线
 for i in range(0, len(x), 5):
     ax1.plot([x[i], x[i]], [y_true[i], y_pred_bad[i]], 'r--', alpha=0.4, linewidth=1)
     ax1.plot([x[i], x[i]], [y_true[i], y_pred_good[i]], 'g--', alpha=0.4, linewidth=1)
@@ -417,7 +375,6 @@ ax1.set_title('MSE Loss: Regression Fit with Noisy Data', fontsize=14, fontweigh
 ax1.legend(loc='upper left', fontsize=10)
 ax1.grid(True, alpha=0.3)
 
-# 添加MSE公式标注
 mse_good = np.mean((y_pred_good - y_true)**2)
 mse_bad = np.mean((y_pred_bad - y_true)**2)
 ax1.text(0.5, 22, f'MSE (good) = {mse_good:.2f}', fontsize=11, color='green', 
@@ -428,13 +385,12 @@ ax1.text(0.5, 20, f'MSE (bad) = {mse_bad:.2f}', fontsize=11, color='red',
 # ========== 图2: 交叉熵损失函数可视化 ==========
 ax2 = axes[0, 1]
 
-# 二分类场景：展示交叉熵对错误预测的惩罚
 p = np.linspace(0.001, 0.999, 500)
 y_true_1 = 1  # 真实标签为1
 y_true_0 = 0  # 真实标签为0
 
-ce_y1 = -np.log(p)      # 当y_true=1时
-ce_y0 = -np.log(1 - p)  # 当y_true=0时
+ce_y1 = -np.log(p)      
+ce_y0 = -np.log(1 - p)  
 
 ax2.plot(p, ce_y1, 'b-', linewidth=2.5, label=r'Cross-Entropy ($y_{true}=1$): $-log(\hat{y})$')
 ax2.plot(p, ce_y0, 'r-', linewidth=2.5, label=r'Cross-Entropy ($y_{true}=0$): $-log(1-\hat{y})$')
@@ -448,7 +404,6 @@ ax2.set_xlim(0, 1)
 ax2.set_ylim(0, 8)
 ax2.grid(True, alpha=0.3)
 
-# 标注关键点
 ax2.annotate('High penalty\nwhen wrong!', xy=(0.05, -np.log(0.05)), xytext=(0.2, 6),
             arrowprops=dict(arrowstyle='->', color='red'),
             fontsize=10, color='red', fontweight='bold')
@@ -494,7 +449,6 @@ ax4.set_xlim(0, 10)
 ax4.set_ylim(0, 10)
 ax4.axis('off')
 
-# 绘制网络结构
 layer_x = [2, 5, 8]
 layer_y = [5, 5, 5]
 layer_names = ['Input\nLayer', 'Hidden\nLayer', 'Output\nLayer']
@@ -504,32 +458,27 @@ for i, (lx, ly, name) in enumerate(zip(layer_x, layer_y, layer_names)):
     ax4.add_patch(circle)
     ax4.text(lx, ly, name, ha='center', va='center', fontsize=9, fontweight='bold', zorder=4)
 
-# 绘制前向传播箭头
 ax4.annotate('', xy=(4.2, 5), xytext=(2.8, 5),
             arrowprops=dict(arrowstyle='->', color='green', lw=2))
 ax4.annotate('', xy=(7.2, 5), xytext=(5.8, 5),
             arrowprops=dict(arrowstyle='->', color='green', lw=2))
 
-# 绘制反向传播箭头（虚线）
 ax4.annotate('', xy=(5.8, 5.5), xytext=(7.2, 5.5),
             arrowprops=dict(arrowstyle='->', color='red', lw=2, linestyle='--'))
 ax4.annotate('', xy=(2.8, 5.5), xytext=(4.2, 5.5),
             arrowprops=dict(arrowstyle='->', color='red', lw=2, linestyle='--'))
 
-# 标注
 ax4.text(3.5, 6.2, 'Forward Prop', fontsize=11, color='green', fontweight='bold', ha='center')
 ax4.text(6.5, 6.2, 'Forward Prop', fontsize=11, color='green', fontweight='bold', ha='center')
 ax4.text(6.5, 4.0, 'Backprop (Chain Rule)', fontsize=11, color='red', fontweight='bold', ha='center')
 ax4.text(3.5, 4.0, 'Backprop (Chain Rule)', fontsize=11, color='red', fontweight='bold', ha='center')
 
-# 链式法则公式
 ax4.text(5, 1.5, r'$\frac{\partial L}{\partial W_1} = \frac{\partial L}{\partial a_2} \cdot \frac{\partial a_2}{\partial z_2} \cdot \frac{\partial z_2}{\partial a_1} \cdot \frac{\partial a_1}{\partial z_1} \cdot \frac{\partial z_1}{\partial W_1}$',
          fontsize=11, ha='center', va='center',
          bbox=dict(boxstyle='round', facecolor='lightyellow', alpha=0.9, edgecolor='orange'))
 
 ax4.text(5, 8.5, 'Backpropagation: Chain Rule Application', fontsize=14, fontweight='bold', ha='center')
 
-# 添加说明框
 ax4.text(5, 0.5, 'Key Advantage: O(n) complexity vs O(n^2) for numerical differentiation',
          fontsize=10, ha='center', va='center', style='italic', color='purple',
          bbox=dict(boxstyle='round', facecolor='lavender', alpha=0.8))
