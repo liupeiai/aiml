@@ -1,4 +1,4 @@
-# Artificial Intelligence and Machine Learning: From Theory to Practice
+# Artificial Intelligence and Machine Learning
 
 &gt; Course paper resources for *Artificial Intelligence and Machine Learning*, including lecture notes, experimental code, and related datasets.
 
