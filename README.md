@@ -12,12 +12,12 @@ Lecture notes are available at: [demo.ipynb](https://github.com/liupeiai/aiml/bl
 
 aiml/
 
-├── demo.ipynb          # Lecture notes (core notes with theoretical explanations and code demonstrations)
+- demo.ipynb          # Lecture notes (core notes with theoretical explanations and code demonstrations)
 
-├── [code files]        # Experimental code from the course paper
+- [code files]        # Experimental code from the course paper
 
-├── [data files]        # Datasets used in experiments
+- [data files]        # Datasets used in experiments
 
-├── [images/figures]    # Visualizations and figures from the paper
+- [images/figures]    # Visualizations and figures from the paper
 
-└── README.md           # This file
+- README.md           # This file
